@@ -1,19 +1,19 @@
 # ZIP Compare Tool
 
-Ein Go-Programm zum Vergleichen des Inhalts zweier ZIP-Dateien.
+A Go program for comparing the contents of two ZIP files.
 
 ## Features
 
-- Vergleicht den Inhalt zweier ZIP-Dateien
-- **NEU**: Vergleicht ganze Verzeichnisse mit ZIP-Dateien
-- Erkennt identische, unterschiedliche und fehlende Dateien
-- Ignoriert Commit-Codes in Dateinamen (z.B. `file_abc123.txt` → `file.txt`)
-- Verwendet SHA-256 Hash für Inhaltsvergleich
-- Übersichtliche Ausgabe der Ergebnisse in der Konsole
-- Optionale XML-Ausgabe mit detaillierten Diff-Informationen
-- Automatische Binärdatei-Erkennung
-- Line-by-Line Diff für Textdateien
-- **NEU**: Batch-Verarbeitung mit automatischem ZIP-Pairing
+- Compares the contents of two ZIP files
+- **NEW**: Compares entire directories containing ZIP files
+- Detects identical, different, and missing files
+- Ignores commit codes in filenames (e.g., `file_abc123.txt` → `file.txt`)
+- Uses SHA-256 hash for content comparison
+- Clear console output of results
+- Optional XML output with detailed diff information
+- Automatic binary file detection
+- Line-by-line diff for text files
+- **NEW**: Batch processing with automatic ZIP pairing
 
 ## Installation
 
@@ -22,75 +22,75 @@ go mod tidy
 go build -o zipcompare.exe
 ```
 
-## Verwendung
+## Usage
 
-### Einzelne ZIP-Dateien vergleichen
+### Compare Single ZIP Files
 
-#### Basis-Vergleich (nur Konsolen-Ausgabe)
+#### Basic comparison (console output only)
 ```bash
 zipcompare.exe <zip1> <zip2>
 ```
 
-#### Mit XML-Report
+#### With XML report
 ```bash
 zipcompare.exe <zip1> <zip2> <output.xml>
 ```
 
-### Verzeichnisse mit ZIP-Dateien vergleichen
+### Compare Directories with ZIP Files
 
-#### Batch-Vergleich (nur Konsolen-Ausgabe)
+#### Batch comparison (console output only)
 ```bash
 zipcompare.exe <dir1> <dir2>
 ```
 
-#### Mit XML-Reports für jedes Paar
+#### With XML reports for each pair
 ```bash
 zipcompare.exe <dir1> <dir2> <output_dir>
 ```
 
-### Beispiele
+### Examples
 
 ```bash
-# Einzelne ZIP-Dateien
+# Single ZIP files
 zipcompare.exe archive1.zip archive2.zip
 
-# Einzelne ZIP-Dateien mit XML-Report
+# Single ZIP files with XML report
 zipcompare.exe archive1.zip archive2.zip comparison_report.xml
 
-# Verzeichnisse vergleichen
+# Compare directories
 zipcompare.exe releases_v1/ releases_v2/
 
-# Verzeichnisse vergleichen mit XML-Reports
+# Compare directories with XML reports
 zipcompare.exe releases_v1/ releases_v2/ comparison_reports/
 ```
 
-## Funktionsweise
+## How It Works
 
-1. **Dateiname-Normalisierung**: Dateien mit Namen wie `datei_abc123.txt` werden als `datei.txt` behandelt
-2. **Binärdatei-Erkennung**: Automatische Erkennung von Binärdateien basierend auf Inhalt
-3. **Inhaltsvergleich**: SHA-256 Hash wird für jeden Dateiinhalt berechnet
-4. **Kategorisierung**: Dateien werden in folgende Kategorien eingeteilt:
-   - ✅ Identisch (gleicher Inhalt)
-   - ⚠️ Unterschiedlich (verschiedener Inhalt)
-   - 📁 Nur in ZIP 1
-   - 📁 Nur in ZIP 2
-5. **Diff-Generierung**: Line-by-Line Diffs für Textdateien (nur in XML-Ausgabe)
+1. **Filename Normalization**: Files with names like `file_abc123.txt` are treated as `file.txt`
+2. **Binary File Detection**: Automatic detection of binary files based on content
+3. **Content Comparison**: SHA-256 hash is calculated for each file content
+4. **Categorization**: Files are divided into the following categories:
+   - ✅ Identical (same content)
+   - ⚠️ Different (different content)
+   - 📁 Only in ZIP 1
+   - 📁 Only in ZIP 2
+5. **Diff Generation**: Line-by-line diffs for text files (only in XML output)
 
-## Verzeichnis-Vergleich Features
+## Directory Comparison Features
 
-### Automatisches ZIP-Pairing
-Das Tool findet automatisch passende ZIP-Dateien in zwei Verzeichnissen:
-- Pairing basiert auf dem Namen bis zum letzten Unterstrich
-- `package_v1.zip` und `package_v2.zip` → Paar: **package**
-- `release_beta.zip` und `release_final.zip` → Paar: **release**
+### Automatic ZIP Pairing
+The tool automatically finds matching ZIP files in two directories:
+- Pairing based on name up to the last underscore
+- `package_v1.zip` and `package_v2.zip` → Pair: **package**
+- `release_beta.zip` and `release_final.zip` → Pair: **release**
 
-### Batch-Verarbeitung
-- Verarbeitet alle gefundenen Paare automatisch
-- Generiert für jedes Paar einen separaten XML-Report
-- Übersichtliche Fortschrittsanzeige in der Konsole
-- Sammelt alle Reports in einem Ausgabeverzeichnis
+### Batch Processing
+- Automatically processes all found pairs
+- Generates a separate XML report for each pair
+- Clear progress display in console
+- Collects all reports in an output directory
 
-### Beispiel-Verzeichnisstruktur
+### Example Directory Structure
 ```
 releases_v1/
 ├── package_v1.0.zip
@@ -102,31 +102,31 @@ releases_v2/
 ├── tools_final.zip
 └── docs_final.zip
 
-Gefundene Paare:
+Found pairs:
 • package (v1.0 ↔ v2.0)
 • tools (beta ↔ final)
 • docs (draft ↔ final)
 ```
 
-## XML-Report Features
+## XML Report Features
 
-- **Strukturierte Daten**: Vollständige Vergleichsergebnisse in XML-Format
-- **Diff-Details**: Detaillierte Line-by-Line Diffs für unterschiedliche Textdateien
-- **Binärdatei-Kennzeichnung**: Binärdateien werden speziell markiert
-- **Zeitstempel**: Automatischer Zeitstempel der Generierung
-- **Zusammenfassung**: Statistische Übersicht aller Vergleichsergebnisse
-- **Batch-Reports**: Bei Verzeichnis-Vergleich wird für jedes Paar ein separater Report erstellt
+- **Structured Data**: Complete comparison results in XML format
+- **Diff Details**: Detailed line-by-line diffs for different text files
+- **Binary File Marking**: Binary files are specially marked
+- **Timestamps**: Automatic generation timestamp
+- **Summary**: Statistical overview of all comparison results
+- **Batch Reports**: For directory comparison, a separate report is created for each pair
 
-## Commit-Code Erkennung
+## Commit Code Detection
 
-Das Programm erkennt automatisch Commit-Codes am Ende von Dateinamen:
-- `datei_a1b2c3.txt` → `datei.txt`
+The program automatically recognizes commit codes at the end of filenames:
+- `file_a1b2c3.txt` → `file.txt`
 - `script_def456.js` → `script.js`
 - `image_789abc.png` → `image.png`
 
-Der Regex-Pattern: `^(.+)_[a-zA-Z0-9]{6,}(\.[^.]*)?$`
+Regex pattern: `^(.+)_[a-zA-Z0-9]{6,}(\.[^.]*)?$`
 
-## XML-Report Beispiel
+## XML Report Example
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -162,3 +162,36 @@ Der Regex-Pattern: `^(.+)_[a-zA-Z0-9]{6,}(\.[^.]*)?$`
   </summary>
 </zipComparison>
 ```
+
+## Command Line Arguments
+
+- **Single file mode**: `zipcompare <zip1> <zip2> [output.xml]`
+- **Directory mode**: `zipcompare <dir1> <dir2> [output_dir]`
+- If the third argument is provided, XML reports will be generated
+- For directory mode, XML files are named `{basename}_comparison.xml`
+
+## Output Format
+
+### Console Output
+- Uses emojis and colors for better readability
+- Shows statistics for each comparison
+- Progress indication for batch processing
+
+### XML Output
+- Structured data suitable for further processing
+- Contains complete diff information for text files
+- Binary files are marked but contain no diff content
+- Includes generation timestamp and source paths
+
+## Technical Details
+
+- **Language**: Go
+- **Dependencies**: Standard library only
+- **Hash Algorithm**: SHA-256 for content comparison
+- **Binary Detection**: UTF-8 validation + null byte detection
+- **Memory Usage**: Efficient - content is only stored when diffs are needed
+- **Platform**: Cross-platform (Windows, Linux, macOS)
+
+## License
+
+This project is licensed under the APACHE 2.0 License - see the LICENSE file for details.
